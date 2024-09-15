@@ -3,6 +3,7 @@ from pyee import EventEmitter
 import socket
 import struct
 import threading
+from .event_constants import NETWORK_DATA_MESSAGE
 
 MULTICAST_GROUP = '239.255.50.10'
 PORT = 5010
@@ -23,7 +24,7 @@ class UdpListener(EventEmitter):
 
         while True:
             data, addr = sock.recvfrom(65536)  # Buffer size of 65536 bytes
-            self.emit('data_message', data)
+            self.emit(NETWORK_DATA_MESSAGE, data)
 
     def start(self):
         self.thread = threading.Thread(target=self.udp_listener)

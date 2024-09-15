@@ -1,20 +1,17 @@
 
 import struct
 from pyee import EventEmitter
-from aircraft_json_parser import AircraftJsonParser
-from event_constants import EVENTS
-from parser import ProtocolParser
+from .aircraft_json_parser import AircraftJsonParser
+from .parser import ProtocolParser
 
 
 class ControlParser(EventEmitter):
     def __init__(self):
+        super().__init__()
         self.aircraft_data, self.controls, self.address_lookup = AircraftJsonParser().get_aircraft_controls()
         self.emit_queue = []
         self.data_array =[0] * 65536
         self.parser = ProtocolParser(self.handle_data_change_for_address, self.handle_sync_complete)
-
-        # When we get data from the network, handle in dcs bios parser
-        self.on(EVENTS.NETWORK_DATA_MESSAGE, self.handle_incoming_dcs_bios_message)
 
     def handle_incoming_dcs_bios_message(self, message):
         for byte in bytearray(message):
@@ -51,7 +48,7 @@ class ControlParser(EventEmitter):
 
     def handle_sync_complete(self):
         for item in self.emit_queue:
-            if 'address_identifier' in item['output']:
-                print(item['output']['address_identifier'], item['output']['value'])
-        
+            identifier = item['control']['identifier'] + item['output']['suffix']
+            self.emit(identifier, item.output.value, item.control, item.output)
+            self.emit(identifier + ':' + item.output.value, item.control, item.output)
         self.emit_queue = []

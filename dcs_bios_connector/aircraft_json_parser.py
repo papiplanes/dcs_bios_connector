@@ -1,3 +1,5 @@
+import pkg_resources
+
 import os
 import json
 
@@ -18,14 +20,15 @@ class AircraftJsonParser:
             """
             json_file_paths = []
             
-            # Traverse the directory
-            for root, dirs, files in os.walk(directory):
-                for file in files:
-                    if file.endswith('.json'):
-                        # Get the absolute path to the JSON file
-                        absolute_path = os.path.join(root, file)
-                        json_file_paths.append(absolute_path)
-            
+            # Use pkg_resources to access files within the package
+            resource_package = __name__  # Current package
+
+            for file in pkg_resources.resource_listdir(resource_package, directory):
+                if file.endswith('.json'):
+                    # Get the path to the JSON file relative to the package
+                    relative_path = os.path.join(directory, file)
+                    json_file_paths.append(relative_path)
+            print(json_file_paths)
             return json_file_paths
 
 
@@ -40,11 +43,14 @@ class JsonParser:
             address_lookup = {}
 
         for file in files:
+            # Use pkg_resources to get the correct file path within the package
+            json_path = pkg_resources.resource_filename('dcs_bios_connector', file)
+
             # Get the aircraft name from the filename (without extension)
             aircraft_name = os.path.basename(file).replace('.json', '')
             
             # Load JSON data
-            with open(file, 'r') as f:
+            with open(json_path, 'r') as f:
                 json_data = json.load(f)
             
             aircraft_data[aircraft_name] = json_data
