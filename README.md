@@ -10,6 +10,7 @@ A helpful tool is [DCS Bort](https://github.com/DCS-Skunkworks/Bort/releases/tag
 1.[ DCS Bios ](https://github.com/DCS-Skunkworks/dcs-bios) installed on your PC and configured with DCS 
 
 # Installation
+PIP Package [Link](https://pypi.org/project/dcs-bios-connector/)
 `pip install dcs-bios-connector`
 
 ## Usage
