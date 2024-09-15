@@ -6,6 +6,9 @@ This library uses [DCS Bios Skunkworks](https://github.com/DCS-Skunkworks/dcs-bi
 
 A helpful tool is [DCS Bort](https://github.com/DCS-Skunkworks/Bort/releases/tag/v0.3.0) to see button/switch names for each piece of data for a given aircraft. In the `Usage` section below, I am using the `FLAPS_SW` for the `F/A-18_Hornet`. Bort helps you see the name in DCS Bios for every piece of data, it also shows the values in realtime to help debug and see what data you are looking for.
 
+# Requirments
+1.[ DCS Bios ](https://github.com/DCS-Skunkworks/dcs-bios) installed on your PC and configured with DCS 
+
 # Installation
 `pip install dcs-bios-connector`
 
