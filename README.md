@@ -15,12 +15,21 @@ from dcs_bios_connector import DcsBiosConnector
 bios = DcsBiosConnector()
 bios.connect()
 
-# Example: Detect when the FLAP_SW in the F/A-18 Hornet goes to position 1
-bios.on("FLAP_SW:1", lambda: print("Flaps are at position 1"))
+# ============= Example: Detect when flap switch changes and its new value =====================
+def handle_flaps_change(value, controlInformation, dataInformation):
+    print("Flaps have been changed to: ", value)
 
-# Example of calling a function anytime the FLAP_SW changes
-def  handle_flaps_switch_moved(dcsValue, controlInformation, dataInformation):
-	print("Detected flap switch changed: ", dcsValue, controlInformation, dataInformation)
-bios.on("FLAP_SW", handle_flaps_switch_moved)
+bios.on("FLAP_SW", handle_flaps_change)
+
+
+# ============= Example: Callback method to run when flaps are set to 2 =====================
+def handle_flaps_lowered():
+    print("That flaps have been lowered! Yeah")
+
+bios.on("FLAP_SW:0", handle_flaps_lowered)
+
+
+# ================= Example: Setting flap switch to position 2 (Flaps to auto) ==========================
+bios.send("FLAP_SW 2")
 ```
 

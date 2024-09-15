@@ -5,9 +5,9 @@ from .aircraft_json_parser import AircraftJsonParser
 from .parser import ProtocolParser
 
 
-class ControlParser(EventEmitter):
-    def __init__(self):
-        super().__init__()
+class ControlParser:
+    def __init__(self, eventEmitterInstance):
+        self.event_emitter = eventEmitterInstance
         self.aircraft_data, self.controls, self.address_lookup = AircraftJsonParser().get_aircraft_controls()
         self.emit_queue = []
         self.data_array =[0] * 65536
@@ -49,6 +49,6 @@ class ControlParser(EventEmitter):
     def handle_sync_complete(self):
         for item in self.emit_queue:
             identifier = item['control']['identifier'] + item['output']['suffix']
-            self.emit(identifier, item.output.value, item.control, item.output)
-            self.emit(identifier + ':' + item.output.value, item.control, item.output)
+            self.event_emitter.emit(identifier, item['output']['value'], item['control'], item['output'])
+            self.event_emitter.emit(identifier + ':' + str(item['output']['value']))
         self.emit_queue = []

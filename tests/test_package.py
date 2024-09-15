@@ -1,7 +1,7 @@
-from dcs_bios_connector import DcsBiosEventListener
+from dcs_bios_connector import DcsBiosConnector
 
 def test_dcs_bios_event_listener():
-    dcsBios = DcsBiosEventListener()
-    dcsBios.connect()
+    api = DcsBiosConnector()
+    api.connect()
     
-    assert listener is not None
+    assert api is not None
