@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='dcs_bios_connector',
-    version='1.2',
+    version='1.3',
     description='Allows easy access to dcs bios state and sending of commands',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',

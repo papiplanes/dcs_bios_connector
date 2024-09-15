@@ -17,4 +17,4 @@ class DcsBiosConnector(EventEmitter):
         self.client.start()
     
     def send(self, message):
-        self.client.send(message.trim() + '\n')
+        self.client.send(message.strip() + '\n')

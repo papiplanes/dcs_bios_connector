@@ -24,11 +24,8 @@ class UDPConnector(EventEmitter):
         # Setup sending socket
         self.send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         self.send_sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 2)
-        
-        print(f"Listener initialized for {MULTICAST_GROUP}:{PORT}")
 
     def udp_listener(self):
-        print(f"Listening for data on {MULTICAST_GROUP}:{PORT}...")
         while True:
             data, addr = self.listen_sock.recvfrom(65536)  # Buffer size of 65536 bytes
             self.emit(NETWORK_DATA_MESSAGE, data)
@@ -39,9 +36,7 @@ class UDPConnector(EventEmitter):
         self.thread.start()
 
     def send(self, message):
-        print("Sending: ", message)
         self.send_sock.sendto(message.encode('utf-8'), ('127.0.0.1', SEND_PORT))
-        print(f"Sent message: '{message}' to {'127.0.0.1'}:{SEND_PORT}")
 
     def close(self):
         """

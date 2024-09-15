@@ -28,7 +28,6 @@ class AircraftJsonParser:
                     # Get the path to the JSON file relative to the package
                     relative_path = os.path.join(directory, file)
                     json_file_paths.append(relative_path)
-            print(json_file_paths)
             return json_file_paths
 
 
